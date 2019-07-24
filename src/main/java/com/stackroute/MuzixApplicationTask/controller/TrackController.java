@@ -1,6 +1,8 @@
 package com.stackroute.MuzixApplicationTask.controller;
 
 import com.stackroute.MuzixApplicationTask.domain.Track;
+import com.stackroute.MuzixApplicationTask.exception.TrackAlreadyExistsException;
+import com.stackroute.MuzixApplicationTask.exception.TrackNotFoundException;
 import com.stackroute.MuzixApplicationTask.services.TrackServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,7 +31,7 @@ public class TrackController {
         try {
             trackServices.saveTrack(track);
             responseEntity = new ResponseEntity<String>("Successfully created", HttpStatus.CREATED);
-        } catch (Exception ex) {
+        } catch (TrackAlreadyExistsException ex) {
             responseEntity = new ResponseEntity<String>(ex.getMessage(), HttpStatus.CONFLICT);
         }
         return responseEntity;
@@ -62,21 +64,22 @@ public class TrackController {
         try {
             trackServices.deleteTrack(trackId);
             responseEntity = new ResponseEntity<String>("Succesfully deleted", HttpStatus.NO_CONTENT);
-        } catch (Exception ex) {
+        } catch (TrackNotFoundException ex) {
             responseEntity = new ResponseEntity<String>(ex.getMessage(), HttpStatus.NOT_FOUND);
         }
         return responseEntity;
     }
 
     @GetMapping(value = "/trackByName/{trackName}")
-    public ResponseEntity<?> findTrack(@PathVariable String trackName) {
+    public ResponseEntity<?> findTrack(@PathVariable String trackName)  {
         ResponseEntity responseEntity;
         try {
             List<Track> track = trackServices.findByTrackName(trackName);
             responseEntity = new ResponseEntity<List<Track>>(track, HttpStatus.OK);
-        } catch (Exception ex) {
+        } catch (TrackNotFoundException ex) {
             responseEntity = new ResponseEntity<String>(ex.getMessage(), HttpStatus.NOT_FOUND);
         }
         return responseEntity;
     }
+
 }
