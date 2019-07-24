@@ -48,6 +48,12 @@ public class TrackServicesImpl implements TrackServices {
         trackrepository.save(track);
         return true;
     }
+    @Override
+    public List<Track> findByTrackName(String trackname)
+    {
+        List<Track> track= trackrepository.findByTrackName(trackname);
+        return track;
+    }
 
 
 
