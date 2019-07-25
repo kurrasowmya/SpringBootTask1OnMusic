@@ -4,29 +4,33 @@ import com.stackroute.MuzixApplicationTask.domain.Track;
 import com.stackroute.MuzixApplicationTask.exception.TrackAlreadyExistsException;
 import com.stackroute.MuzixApplicationTask.exception.TrackNotFoundException;
 import com.stackroute.MuzixApplicationTask.services.TrackServices;
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
-@RestController
-@RequestMapping(value = "api/v1")
+
+@RestController //created restcontroller annotation
+@RequestMapping(value = "api/v1") //set path as api/v1
+@Api(value = "Music Application") //swagger api description
 public class TrackController {
 
     @Autowired
-    //Object for TrackServices
-            TrackServices trackServices;
+    TrackServices trackServices; //autowired trackservices
 
-    //set the value for trackservices using constructor
     public TrackController(TrackServices trackServices) {
         this.trackServices = trackServices;
     }
 
-    //Save the Track details
-    @PostMapping(value = "/save")
-    public ResponseEntity<?> saveTrack(@RequestBody Track track) {
+    //api operation value
+    @ApiOperation(value = "Add an track")
+    @PostMapping(value = "/save") //post mapping for saving the tracks
+    public ResponseEntity<?> saveTrack(@ApiParam(value = "Track object store in database table", required = true) @Valid @RequestBody Track track) {
+
         ResponseEntity responseEntity;
         try {
             trackServices.saveTrack(track);
@@ -37,19 +41,13 @@ public class TrackController {
         return responseEntity;
     }
 
-    //retrieve the track details
-    @GetMapping(value = "/get")
-    public ResponseEntity<?> getAllTracks(@RequestBody Track track) {
-
-        return new ResponseEntity<List<Track>>(trackServices.getAllTracks(), HttpStatus.OK);
-    }
-
-    //Update the track details
-    @PutMapping(value = "/update")
-    public ResponseEntity<?> updateTrack(@RequestBody Track track) {
+    @ApiOperation(value = "Update a track")
+    @PutMapping(value = "/update/{trackId}") //put mapping for updating tracks
+    public ResponseEntity<?> updateTrack(@ApiParam(value = "track Id to update Music object", required = true) @PathVariable int trackId,
+                                         @ApiParam(value = "Update music object", required = true) @Valid @RequestBody Track track) {
         ResponseEntity responseEntity;
         try {
-            trackServices.saveTrack(track);
+            trackServices.updateTrack(track,trackId);
             responseEntity = new ResponseEntity<String>("Successfully updated", HttpStatus.CREATED);
         } catch (Exception ex) {
             responseEntity = new ResponseEntity<String>(ex.getMessage(), HttpStatus.CONFLICT);
@@ -57,9 +55,20 @@ public class TrackController {
         return responseEntity;
     }
 
-    //Delete the Track details for given trackid
-    @DeleteMapping(value = "/delete/{trackId}")
-    public ResponseEntity<?> deleteTrack(@RequestBody int trackId) {
+    @ApiOperation(value = "View a list of available tracks", response = ResponseEntity.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfully retrieved list"),
+            @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+            @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+            @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
+    })
+    @GetMapping(value = "/get") //get mapping for getting all tracks
+    public ResponseEntity<?> getAllTracks(@ApiParam(value = "Track object store in database table", required = true) @Valid @RequestBody Track track) {
+        return new ResponseEntity<List<Track>>(trackServices.getAllTracks(), HttpStatus.OK);
+    }
+
+    @DeleteMapping(value = "/delete/{trackId}") //delete mapping for deleting track by id
+    public ResponseEntity<?> deleteTrack(@ApiParam(value = "deleting row from table by trackId", required = true) @PathVariable int trackId) {
         ResponseEntity responseEntity;
         try {
             trackServices.deleteTrack(trackId);
@@ -68,16 +77,20 @@ public class TrackController {
             responseEntity = new ResponseEntity<String>(ex.getMessage(), HttpStatus.NOT_FOUND);
         }
         return responseEntity;
+
     }
 
-    @GetMapping(value = "/trackByName/{trackName}")
-    public ResponseEntity<?> findTrack(@PathVariable String trackName)  {
+    @ApiOperation(value = "View a list of available tracks by track name", response = ResponseEntity.class)
+    @GetMapping("/name/{trackName}")
+    public ResponseEntity<?> getTrackByName(@ApiParam(value = "getting track by track name", required = true)@PathVariable String trackName) {
         ResponseEntity responseEntity;
         try {
-            List<Track> track = trackServices.findByTrackName(trackName);
-            responseEntity = new ResponseEntity<List<Track>>(track, HttpStatus.OK);
-        } catch (TrackNotFoundException ex) {
-            responseEntity = new ResponseEntity<String>(ex.getMessage(), HttpStatus.NOT_FOUND);
+            trackServices.findByTrackName(trackName);
+            responseEntity=new ResponseEntity<List<Track>>(trackServices.getAllTracks(),HttpStatus.OK);
+        }
+        catch (TrackNotFoundException ex)
+        {
+            responseEntity= new ResponseEntity<String>(ex.getMessage(),HttpStatus.CONFLICT);
         }
         return responseEntity;
     }
