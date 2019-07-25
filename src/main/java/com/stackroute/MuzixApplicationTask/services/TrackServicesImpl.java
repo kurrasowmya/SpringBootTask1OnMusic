@@ -25,12 +25,12 @@ public class TrackServicesImpl implements TrackServices {
     {
         if(trackrepository.existsById(track.getTrackId()))
         {
-            throw new TrackAlreadyExistsException("alreadyExists");
+            throw new TrackAlreadyExistsException();
         }
         Track trackuser=trackrepository.save(track);
         if(trackuser==null)
         {
-            throw new TrackAlreadyExistsException("track exists");
+            throw new TrackAlreadyExistsException();
         }
 
     }
@@ -65,7 +65,7 @@ public class TrackServicesImpl implements TrackServices {
         List<Track> track= trackrepository.findByTrackName(trackname);
         if(track.isEmpty())
         {
-            throw new TrackNotFoundException("not found");
+            throw new TrackNotFoundException();
         }
         else {
            return track;
