@@ -18,9 +18,9 @@ import java.util.List;
 @RequestMapping(value = "api/v1") //set path as api/v1
 @Api(value = "Music Application") //swagger api description
 public class TrackController {
-
+    //Autowire Trackservices
     @Autowired
-    TrackServices trackServices; //autowired trackservices
+    TrackServices trackServices;
 
     public TrackController(TrackServices trackServices) {
         this.trackServices = trackServices;
@@ -28,7 +28,8 @@ public class TrackController {
 
     //api operation value
     @ApiOperation(value = "Add an track")
-    @PostMapping(value = "/save") //post mapping for saving the tracks
+    //method to save the tracks
+    @PostMapping(value = "/save")
     public ResponseEntity<?> saveTrack(@ApiParam(value = "Track object store in database table", required = true) @Valid @RequestBody Track track) {
 
         ResponseEntity responseEntity;
@@ -42,6 +43,7 @@ public class TrackController {
     }
 
     @ApiOperation(value = "Update a track")
+    //method to update the track
     @PutMapping(value = "/update/{trackId}") //put mapping for updating tracks
     public ResponseEntity<?> updateTrack(@ApiParam(value = "track Id to update Music object", required = true) @PathVariable int trackId,
                                          @ApiParam(value = "Update music object", required = true) @Valid @RequestBody Track track) {
@@ -62,12 +64,13 @@ public class TrackController {
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
     })
-    @GetMapping(value = "/get") //get mapping for getting all tracks
+    //method to get alltracks
+    @GetMapping(value = "/get")
     public ResponseEntity<?> getAllTracks(@ApiParam(value = "Track object store in database table", required = true) @Valid @RequestBody Track track) {
         return new ResponseEntity<List<Track>>(trackServices.getAllTracks(), HttpStatus.OK);
     }
-
-    @DeleteMapping(value = "/delete/{trackId}") //delete mapping for deleting track by id
+    //method to delete trackbyid
+    @DeleteMapping(value = "/delete/{trackId}")
     public ResponseEntity<?> deleteTrack(@ApiParam(value = "deleting row from table by trackId", required = true) @PathVariable int trackId) {
         ResponseEntity responseEntity;
         try {
@@ -81,6 +84,7 @@ public class TrackController {
     }
 
     @ApiOperation(value = "View a list of available tracks by track name", response = ResponseEntity.class)
+    //method to get the track name
     @GetMapping("/name/{trackName}")
     public ResponseEntity<?> getTrackByName(@ApiParam(value = "getting track by track name", required = true)@PathVariable String trackName) {
         ResponseEntity responseEntity;
