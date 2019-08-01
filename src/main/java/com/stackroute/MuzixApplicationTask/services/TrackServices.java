@@ -7,7 +7,7 @@ import com.stackroute.MuzixApplicationTask.exception.TrackNotFoundException;
 import java.util.List;
 
 public interface TrackServices {
-    //All the method declaration without having defination
+    //All the method declaration without haviing function body
 
     public void saveTrack(Track track) throws TrackAlreadyExistsException;
 
