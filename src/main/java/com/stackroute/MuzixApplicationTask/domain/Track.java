@@ -3,7 +3,8 @@ package com.stackroute.MuzixApplicationTask.domain;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
-@Entity
+@Document(collection= "track")
+
 public class Track {
     //Make id as primary key
     @Id
