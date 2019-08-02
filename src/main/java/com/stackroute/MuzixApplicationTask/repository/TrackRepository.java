@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 //Trackrepository that extends jparepository
 @Repository
-public interface TrackRepository extends JpaRepository<Track,Integer> {
+public interface TrackRepository extends MongoRepository<Track,Integer> {
 }
