@@ -9,18 +9,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import javax.validation.Valid;
 import java.util.List;
-
 
 @RestController //created restcontroller annotation
 @RequestMapping(value = "api/v1") //set path as api/v1
 @Api(value = "Music Application") //swagger api description
 public class TrackController {
-
-    @Autowired
-    TrackServices trackServices; //autowired trackservices
+     @Autowired
+    private TrackServices trackServices; //autowired trackservices
 
     public TrackController(TrackServices trackServices) {
         this.trackServices = trackServices;
