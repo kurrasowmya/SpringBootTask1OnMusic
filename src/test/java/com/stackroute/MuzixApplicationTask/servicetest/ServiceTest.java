@@ -1,6 +1,5 @@
 package com.stackroute.MuzixApplicationTask.servicetest;
 
-
 import com.stackroute.MuzixApplicationTask.domain.Track;
 import com.stackroute.MuzixApplicationTask.exception.TrackAlreadyExistsException;
 import com.stackroute.MuzixApplicationTask.repository.TrackRepository;
@@ -14,15 +13,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.context.junit4.SpringRunner;
-
 import javax.validation.constraints.AssertTrue;
 import java.util.ArrayList;
 import java.util.List;
-
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.when;
-
     //Test cases for TrackService methods
     @RunWith(SpringRunner.class)
     public class ServiceTest {
