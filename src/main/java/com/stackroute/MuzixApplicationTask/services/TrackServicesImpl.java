@@ -11,7 +11,7 @@ import java.util.Optional;
 @Service
 public class TrackServicesImpl implements TrackServices {
 
-    TrackRepository trackrepository;
+    private TrackRepository trackrepository;
     @Autowired
     public TrackServicesImpl(TrackRepository trackRepository)
     {
