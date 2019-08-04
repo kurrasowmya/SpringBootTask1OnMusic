@@ -4,14 +4,12 @@ import com.stackroute.MuzixApplicationTask.domain.Track;
 import com.stackroute.MuzixApplicationTask.repository.TrackRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class TrackServicesImpl implements TrackServices {
-
-    TrackRepository trackrepository;
+    private TrackRepository trackrepository;
     @Autowired
     public TrackServicesImpl(TrackRepository trackRepository)
     {
@@ -23,8 +21,6 @@ public class TrackServicesImpl implements TrackServices {
     {
         trackrepository.save(track);
     }
-
-
     //method to get all tracks
     @Override
     public List<Track> getAllTracks(){
@@ -48,8 +44,5 @@ public class TrackServicesImpl implements TrackServices {
         trackrepository.save(track);
         return true;
     }
-
-
-
 }
 
