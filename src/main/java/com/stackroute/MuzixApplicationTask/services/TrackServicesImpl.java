@@ -6,7 +6,6 @@ import com.stackroute.MuzixApplicationTask.exception.TrackNotFoundException;
 import com.stackroute.MuzixApplicationTask.repository.TrackRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -55,12 +54,13 @@ public class TrackServicesImpl implements TrackServices {
     }
     //method to update track by id
     @Override
-    public Track updateTrack(Track track, int trackId)
+    public Track updateTrack(Track track, int trackId) throws trackNotFoundException
     {
         Optional<Track> optionalMusic=trackrepository.findById(trackId);
         if(!optionalMusic.isPresent())
-            return false;
-
+        {
+            throw new TrackNotFoundException("trackNot found");
+        }
         track.setTrackId(trackId);
         Track trackupdate=trackrepository.save(track);
         return trackupdate;
@@ -76,12 +76,6 @@ public class TrackServicesImpl implements TrackServices {
         else {
            return track;
         }
-
-
-    }
-
-
-
-
+}
 }
 
