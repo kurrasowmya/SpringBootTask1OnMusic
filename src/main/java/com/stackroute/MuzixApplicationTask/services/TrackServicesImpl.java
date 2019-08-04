@@ -21,7 +21,7 @@ public class TrackServicesImpl implements TrackServices {
     }
     //method to save track
     @Override
-    public void saveTrack(Track track) throws TrackAlreadyExistsException
+    public Track saveTrack(Track track) throws TrackAlreadyExistsException
     {
         if(trackrepository.existsById(track.getTrackId()))
         {
@@ -32,6 +32,7 @@ public class TrackServicesImpl implements TrackServices {
         {
             throw new TrackAlreadyExistsException("track exists");
         }
+        return trackuser;
 
     }
 
@@ -43,21 +44,26 @@ public class TrackServicesImpl implements TrackServices {
     }
     //method to delete track
     @Override
-    public  void deleteTrack(int trackId)  {
-        trackrepository.deleteById(trackId);
+    public  Track deleteTrack(int trackId) throws TrackNotFoundException {
+        if(!trackrepository.existsById(trackId)
+           {
+               throw new TrackNotFoundException("track not found");
+           }
+        Track trackdeleted=trackrepository.deleteById(trackId);
+         return trackdeleted;
 
     }
     //method to update track by id
     @Override
-    public boolean updateTrack(Track track, int trackId)
+    public Track updateTrack(Track track, int trackId)
     {
         Optional<Track> optionalMusic=trackrepository.findById(trackId);
         if(!optionalMusic.isPresent())
             return false;
 
         track.setTrackId(trackId);
-        trackrepository.save(track);
-        return true;
+        Track trackupdate=trackrepository.save(track);
+        return trackupdate;
     }
     @Override
     public List<Track> findByTrackName(String trackname) throws TrackNotFoundException
