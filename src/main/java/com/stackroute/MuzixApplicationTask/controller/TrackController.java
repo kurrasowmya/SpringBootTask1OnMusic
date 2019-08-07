@@ -16,7 +16,7 @@ public class TrackController {
     @Autowired
     //Object for TrackServices
     TrackServices trackServices;
-     ResponseEntity responseEntity;
+    ResponseEntity responseEntity;
     //set the value for trackservices using constructor
     public TrackController(TrackServices trackServices) {
         this.trackServices = trackServices;
@@ -24,10 +24,10 @@ public class TrackController {
     //Save the Track details
     @PostMapping(value = "/save")
     public ResponseEntity<?> saveTrack(@RequestBody Track track) {
-       
+        
         try {
-            trackServices.saveTrack(track);
-            responseEntity = new ResponseEntity<String>("Successfully created", HttpStatus.CREATED);
+            
+            responseEntity = new ResponseEntity<Track>(trackServices.saveTrack(track), HttpStatus.CREATED);
         } catch (Exception ex) {
             responseEntity = new ResponseEntity<String>(ex.getMessage(), HttpStatus.CONFLICT);
         }
@@ -42,11 +42,10 @@ public class TrackController {
     //Update the track details
     @PutMapping(value="/update")
     public ResponseEntity<?> updateTrack(@RequestBody Track track){
-        
+     
         try
         {
-            trackServices.saveTrack(track);
-            responseEntity=new ResponseEntity<String>("Successfully updated", HttpStatus.CREATED);
+            responseEntity=new ResponseEntity<Track>(trackServices.saveTrack(track), HttpStatus.CREATED);
         }
         catch (Exception ex)
         {
@@ -58,11 +57,11 @@ public class TrackController {
     @DeleteMapping(value = "/delete/{trackId}")
     public ResponseEntity<?> deleteTrack(@RequestBody int trackId)
     {
-      
+       
         try
         {
-            trackServices.deleteTrack(trackId);
-            responseEntity=new ResponseEntity<String >("Succesfully deleted",HttpStatus.NO_CONTENT);
+            
+            responseEntity=new ResponseEntity<Track >(trackServices.deleteTrack(trackId),HttpStatus.NO_CONTENT);
         }
         catch (Exception ex)
         {
