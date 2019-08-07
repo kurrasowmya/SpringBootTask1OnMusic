@@ -36,8 +36,8 @@ public class TrackController {
 
         
         try {
-            trackServices.saveTrack(track);
-            responseEntity = new ResponseEntity<String>("Successfully created", HttpStatus.CREATED);
+           
+            responseEntity = new ResponseEntity<Track>( trackServices.saveTrack(track), HttpStatus.CREATED);
         } catch (TrackAlreadyExistsException ex) {
             responseEntity = new ResponseEntity<String>(ex.getMessage(), HttpStatus.CONFLICT);
         }
@@ -51,8 +51,8 @@ public class TrackController {
                                          @ApiParam(value = "Update music object", required = true) @Valid @RequestBody Track track) {
         
         try {
-            trackServices.updateTrack(track,trackId);
-            responseEntity = new ResponseEntity<String>("Successfully updated", HttpStatus.CREATED);
+            
+            responseEntity = new ResponseEntity<Track>(trackServices.updateTrack(track,trackId), HttpStatus.CREATED);
         } catch (Exception ex) {
             responseEntity = new ResponseEntity<String>(ex.getMessage(), HttpStatus.CONFLICT);
         }
@@ -77,8 +77,7 @@ public class TrackController {
     public ResponseEntity<?> deleteTrack(@ApiParam(value = "deleting row from table by trackId", required = true) @PathVariable int trackId) {
         
         try {
-            trackServices.deleteTrack(trackId);
-            responseEntity = new ResponseEntity<String>("Succesfully deleted", HttpStatus.NO_CONTENT);
+            responseEntity = new ResponseEntity<Track>(trackServices.deleteTrack(trackId), HttpStatus.NO_CONTENT);
         } catch (TrackNotFoundException ex) {
             responseEntity = new ResponseEntity<String>(ex.getMessage(), HttpStatus.NOT_FOUND);
         }
