@@ -14,6 +14,7 @@ public class TrackController {
     @Autowired
     //Object for TrackServices
     TrackServices trackServices;
+    ResponseEntity responseEntity;
     //set the value for trackservices using constructor
     public TrackController(TrackServices trackServices) {
         this.trackServices = trackServices;
@@ -21,7 +22,7 @@ public class TrackController {
     //Save the Track details
     @PostMapping(value = "/save")
     public ResponseEntity<?> saveTrack(@RequestBody Track track) {
-        ResponseEntity responseEntity;
+        
         try {
             trackServices.saveTrack(track);
             responseEntity = new ResponseEntity<String>("Successfully created", HttpStatus.CREATED);
@@ -39,7 +40,7 @@ public class TrackController {
     //Update the track details
     @PutMapping(value="/update")
     public ResponseEntity<?> updateTrack(@RequestBody Track track){
-        ResponseEntity responseEntity;
+       
         try
         {
             trackServices.saveTrack(track);
@@ -55,7 +56,7 @@ public class TrackController {
     @DeleteMapping(value = "/delete/{trackId}")
     public ResponseEntity<?> deleteTrack(@RequestBody int trackId)
     {
-        ResponseEntity responseEntity;
+    
         try
         {
             trackServices.deleteTrack(trackId);
