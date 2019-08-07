@@ -22,6 +22,7 @@ public class TrackController {
     //Autowire Trackservices
     @Autowired
     TrackServices trackServices;
+    ResponseEntity responseEntity;
 
     public TrackController(TrackServices trackServices) {
         this.trackServices = trackServices;
@@ -33,7 +34,7 @@ public class TrackController {
     @PostMapping(value = "/save")
     public ResponseEntity<?> saveTrack(@ApiParam(value = "Track object store in database table", required = true) @Valid @RequestBody Track track) {
 
-        ResponseEntity responseEntity;
+        
         try {
             trackServices.saveTrack(track);
             responseEntity = new ResponseEntity<String>("Successfully created", HttpStatus.CREATED);
@@ -48,7 +49,7 @@ public class TrackController {
     @PutMapping(value = "/update/{trackId}") //put mapping for updating tracks
     public ResponseEntity<?> updateTrack(@ApiParam(value = "track Id to update Music object", required = true) @PathVariable int trackId,
                                          @ApiParam(value = "Update music object", required = true) @Valid @RequestBody Track track) {
-        ResponseEntity responseEntity;
+       
         try {
             trackServices.updateTrack(track,trackId);
             responseEntity = new ResponseEntity<String>("Successfully updated", HttpStatus.CREATED);
@@ -74,7 +75,7 @@ public class TrackController {
     //method to delete trackbyid
     @DeleteMapping(value = "/delete/{trackId}")
     public ResponseEntity<?> deleteTrack(@ApiParam(value = "deleting row from table by trackId", required = true) @PathVariable int trackId) {
-        ResponseEntity responseEntity;
+       
         try {
             trackServices.deleteTrack(trackId);
             responseEntity = new ResponseEntity<String>("Succesfully deleted", HttpStatus.NO_CONTENT);
@@ -89,7 +90,7 @@ public class TrackController {
     //method to get the track name
     @GetMapping("/name/{trackName}")
     public ResponseEntity<?> getTrackByName(@ApiParam(value = "getting track by track name", required = true)@PathVariable String trackName) {
-        ResponseEntity responseEntity;
+     
         try {
             trackServices.findByTrackName(trackName);
             responseEntity=new ResponseEntity<List<Track>>(trackServices.getAllTracks(),HttpStatus.OK);
