@@ -15,8 +15,9 @@ public class TrackController {
 
     @Autowired
     //Object for TrackServices
-    TrackServices trackServices;
-    ResponseEntity responseEntity;
+    private  TrackServices trackServices;
+    @Autowired 
+    private ResponseEntity responseEntity;
     //set the value for trackservices using constructor
     public TrackController(TrackServices trackServices) {
         this.trackServices = trackServices;
