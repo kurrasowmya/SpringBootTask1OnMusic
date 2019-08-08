@@ -39,12 +39,6 @@
 			<artifactId>h2</artifactId>
 
 		</dependency>
-		<!-- Mysql database jar -->
-		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-			<version>8.0.16</version>
-		</dependency>
 	</dependencies>
 
 	<build>
