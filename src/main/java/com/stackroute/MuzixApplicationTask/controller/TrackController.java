@@ -21,8 +21,9 @@ import java.util.List;
 public class TrackController {
     //Autowire Trackservices
     @Autowired
-    TrackServices trackServices;
-    ResponseEntity responseEntity;
+    private TrackServices trackServices;
+    @Autowired
+    private ResponseEntity responseEntity;
 
     public TrackController(TrackServices trackServices) {
         this.trackServices = trackServices;
